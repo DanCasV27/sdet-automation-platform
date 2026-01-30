@@ -1,22 +1,29 @@
 SDET Automation Platform
 
 Hi, I’m Daniel Castro Vindas, a Software Development Engineer in Test (SDET).
+This repository is a small but realistic example of how I approach quality from an engineering perspective.
 
-This repository is a small but realistic example of how I approach quality from an engineering perspective. It represents how I would design, structure, and test a backend system in a real professional environment.
+The goal of this project is not to showcase a complex application, but to demonstrate:
 
-The goal of this project is not to showcase a complex application, but to demonstrate how I think about quality as part of software design, not as something added at the end.
+How I design testable systems
+
+How I separate responsibilities using clean architecture
+
+How I think about testing as part of software design, not as an afterthought
+
+Everything here reflects how I would structure and test a real system in a professional environment.
 
 What this repository represents
 
-This project shows how I would work as an SDET when joining a team or starting a new system.
+This project shows how I would work as an SDET when joining a team or starting a new system:
 
-I design backend systems with clear separation of concerns
+I design the backend with clear separation of concerns
 
-I apply OOP principles where they actually add value
+I apply OOP principles where they add value
 
 I keep business rules isolated and easy to test
 
-I prioritize fast and deterministic tests over fragile end-to-end setups
+I prioritize fast, deterministic tests over fragile end-to-end setups
 
 I avoid over-engineering while keeping the system ready to evolve
 
@@ -27,19 +34,14 @@ Architecture overview
 
 The API follows a layered architecture:
 
-Routes
+routes → services → repositories → models
 
-Services
 
-Repositories
-
-Models
-
-Each layer has a single responsibility and is designed to be independent from the others.
+Each layer has a single responsibility.
 
 Routes
 
-Handle HTTP concerns only (parameters, request bodies, status codes)
+Handle HTTP concerns only (params, request body, status codes)
 
 Contain no business logic
 
@@ -49,7 +51,7 @@ Services
 
 Contain business rules and orchestration logic
 
-Validate domain constraints (for example, products must exist before creating an order)
+Validate domain constraints (for example, products must exist to create an order)
 
 Throw domain-specific errors instead of handling HTTP responses directly
 
@@ -59,26 +61,25 @@ Abstract persistence behind interfaces
 
 Current implementation is in-memory
 
-Designed to be easily replaced by a database-backed implementation such as PostgreSQL
+Designed to be easily replaced by a database-backed implementation (e.g. PostgreSQL)
 
 Models
 
 Represent domain data structures using TypeScript interfaces
 
-Focus on data shape rather than behavior
+Focus on data shape, not behavior
 
 Domain errors
 
-Centralized error definitions such as ValidationError and NotFoundError
+Centralized error definitions (ValidationError, NotFoundError)
 
 Mapped to HTTP responses using a global error handler
 
-Keep error handling consistent and predictable
+Keep error handling consistent and clean
 
-This structure allows the system to grow with new features, a database, and additional tests without rewriting existing logic.
+This structure allows the system to grow (database, new features, more tests) without rewriting existing logic.
 
 Current features
-
 API endpoints
 
 GET /health
@@ -107,17 +108,17 @@ Testing strategy (current state)
 
 At this stage, the project focuses on unit testing the service layer.
 
-Why service-level tests first
+Why service-level tests first?
 
 They validate business rules directly
 
 They run fast and deterministically
 
-They do not require HTTP, ports, or external infrastructure
+They don’t require HTTP, ports, or infrastructure
 
-They make refactoring safer and easier
+They make refactoring safe
 
-Test characteristics
+The tests
 
 Use in-memory repositories
 
@@ -127,7 +128,7 @@ Validate both positive and negative scenarios
 
 This is the layer where tests provide the highest value per test.
 
-Future testing layers will include:
+Future steps will add
 
 HTTP-level API tests
 
@@ -136,44 +137,37 @@ End-to-end tests for critical flows
 CI automation
 
 Project structure
-
 apps/api
-
-src
-
-models
-
-repositories
-
-services
-
-routes
-
-errors
-
-server.ts
-
-tests
-
-services
+├── src
+│   ├── models
+│   ├── repositories
+│   ├── services
+│   ├── routes
+│   ├── errors
+│   └── server.ts
+└── tests
+    └── services
 
 Running the project
-
 Requirements
 
-Node.js 18 or newer
+Node.js 18+
 
 npm
 
-Steps
+Install dependencies
+npm install
 
-Install dependencies using npm install
+Run the API
+npm run dev
 
-Run the API using npm run dev
 
-The API will be available at http://localhost:3000
+The API will be available at:
 
-Run unit tests using npm test
+http://localhost:3000
+
+Run unit tests
+npm test
 
 Design decisions
 
@@ -189,7 +183,7 @@ Tests start at the service layer, where failures are clearer and feedback is fas
 
 What comes next
 
-Planned next steps include:
+Planned next steps:
 
 HTTP-level API tests
 
@@ -209,4 +203,4 @@ This repository reflects how I think, design, and test software in real projects
 Final note
 
 This is not a tutorial project.
-It is a practical example of how I approach quality engineering, keeping things simple, testable, and ready to evolve.
+It’s a practical example of how I approach quality engineering, keeping things simple, testable, and ready to evolve.
