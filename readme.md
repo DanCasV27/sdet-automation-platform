@@ -137,3 +137,4 @@ Contributions are welcome. If you find any issues or would like to add new featu
 ### **Contacts**
 Creator: **DanCasV27**  
 GitHub: [DanCasV27](https://github.com/DanCasV27)
+LinkedIn:https://www.linkedin.com/in/daniel-c-4a4697211/
