@@ -1,6 +1,8 @@
-import app from "./app";
+import { buildApp } from "./app";
 
 const start = async () => {
+  const app = buildApp();
+
   try {
     await app.listen({ port: 3000, host: "0.0.0.0" });
     console.log("Server listening at http://localhost:3000");

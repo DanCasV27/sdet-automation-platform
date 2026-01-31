@@ -1,8 +1,10 @@
 import request from "supertest";
 import { describe, it, expect, beforeAll, afterAll } from "vitest";
-import app from "../../src/app"; 
+import { buildApp } from "../../src/app";
 
 describe("Orders API Tests", () => {
+    const app = buildApp();
+    
     beforeAll(async () => {
         await app.ready();
     });
