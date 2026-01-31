@@ -1,205 +1,139 @@
 # SDET Automation Platform
 
-Hi, I’m **Daniel Castro Vindas**, a **Software Development Engineer in Test (SDET)**.  
-
-This repository is a small but realistic example of how I approach quality from an engineering perspective.  
-It represents how I would design, structure, and test a backend system in a real professional environment.
-
-The goal of this project is not to showcase a complex application, but to demonstrate how **quality** is part of software design, not something added at the end.
-
----
-
-## **What This Repository Represents**
-
-This project shows how I would work as an SDET when joining a team or starting a new system:
-
-- I design backend systems with **clear separation of concerns**.
-- I apply **OOP principles** where they add value.
-- I keep **business rules isolated** and easy to test.
-- I prioritize **fast** and **deterministic tests** over fragile end-to-end setups.
-- I avoid **over-engineering** while keeping the system ready to evolve.
-
-> **Note**: The application itself is intentionally small. The focus is on **architecture**, **testability**, and **decision-making**.
+## Description
+This repository is an example of my skills as an **SDET** (Software Development Engineer in Test). It includes:
+- **Unit tests** for individual cases using Vitest.
+- **API tests** for HTTP endpoints using Supertest.
+- A **basic UI** designed to integrate with Playwright (in progress).
 
 ---
 
-## **Architecture Overview**
+## **How to Use This Repository**
 
-This API follows a **layered architecture**:
+### **Prerequisites**
+1. **Node.js**: Ensure you have Node.js version `18.x` or higher.
+2. **npm**: It is included with Node.js, but make sure you have a recent version.
 
-```plaintext
-Routes → Services → Repositories → Models
-```
-
-Each layer has a **single responsibility** and is designed to be independent from the others.
-
-### **Layers Explained**
-
-#### **1. Routes**
-- Handles **HTTP concerns only** (parameters, request bodies, status codes).
-- Contains **no business logic**.
-- Delegates all work to services.
-
-#### **2. Services**
-- Contains **business rules** and **orchestration logic**.
-- Validates **domain constraints** (e.g., products must exist before creating an order).
-- Throws **domain-specific errors** instead of handling HTTP responses directly.
-
-#### **3. Repositories**
-- Abstracts **persistence** behind interfaces.
-- Current implementation: **in-memory**.
-- Designed for easy replacement with **database-backed implementations** (e.g., PostgreSQL).
-
-#### **4. Models**
-- Represents **domain data structures** using TypeScript interfaces.
-- Focuses on **data shape**, not behavior.
-
----
-
-### **Domain Errors**
-
-- **Centralized error definitions** (e.g., `ValidationError`, `NotFoundError`).
-- Mapped to HTTP responses using a **global error handler**.
-- Keeps error handling consistent and predictable.
-
-This structure allows the system to evolve with new features, a database, and additional tests without rewriting existing logic.
-
----
-
-## **Current Features**
-
-### **API Endpoints**
-
-- **`GET /health`**: Basic health check.
-- **`GET /products`**: Returns a static list of products.
-- **`POST /orders`**: Creates an order if all **business rules** are satisfied.
-- **`GET /orders/:id`**: Retrieves an order by its identifier.
-
----
-
-### **Business Rules Implemented**
-
-1. An order must contain **at least one item**.
-2. **Product quantities** must be greater than zero.
-3. Orders cannot reference **non-existing products**.
-4. Requesting a **non-existing order** returns a proper domain error.
-
----
-
-## **Testing Strategy**
-
-At this stage, the project focuses on **unit testing the service layer**.
-
-### **Why Service-Level Tests First?**
-
-- They directly validate **business rules**.
-- They run **fast and deterministically**.
-- They do not require HTTP, ports, or external infrastructure.
-- They make **refactoring safer and easier**.
-
----
-
-### **Test Characteristics**
-
-- Uses **in-memory repositories**.
-- Avoids mocks where possible.
-- Validates both **positive** and **negative scenarios**.
-
-> **Rationale**: Tests at the service layer provide the **highest value per test**.
-
----
-
-### **Future Testing Layers**
-
-1. **HTTP-level API tests**.
-2. **End-to-end tests** for critical flows.
-3. **CI automation** to run all tests.
-
----
-
-## **Project Structure**
-
-```plaintext
-apps/api
-├── src
-│   ├── models
-│   ├── repositories
-│   ├── services
-│   ├── routes
-│   ├── errors
-│   └── server.ts
-└── tests
-    └── services
+Check the versions of Node.js and npm by running:
+```bash
+node -v
+npm -v
 ```
 
 ---
 
-## **Running the Project**
+### **Installation**
 
-### **Requirements**
-
-- Node.js 18 or newer.
-- npm.
-
-### **Steps**
-
-1. **Install dependencies:**
+1. Clone the repository:
    ```bash
-   npm install
+   git clone https://github.com/DanCasV27/sdet-automation-platform.git
+   cd sdet-automation-platform
    ```
 
-2. **Run the API:**
+2. Install the required dependencies:
+   - From the root directory (for shared dependencies, if any):
+     ```bash
+     npm install
+     ```
+
+   - Then go to the `apps/api` directory and run:
+     ```bash
+     cd apps/api
+     npm install
+     ```
+
+---
+
+### **Start the APIs**
+1. Navigate to the API directory:
+   ```bash
+   cd apps/api
+   ```
+
+2. Start the development server:
    ```bash
    npm run dev
    ```
-   The API will be available at:
-   ``````
-   http://localhost:3000
-   ``````
 
-3. **Run unit tests:**
+3. Once started, you can access the APIs at `http://localhost:3000`. The available endpoints are:
+   - **`GET /health`**: Health check.
+   - **`GET /products`**: Retrieve a list of products.
+   - **`POST /orders`**: Create an order.
+   - **`GET /orders/:id`**: Retrieve order details.
+
+---
+
+### **Start the User Interface (FE)** *(in progress)*
+
+1. If you are working on the basic UI:
+   - Navigate to the corresponding directory (modify this if there’s a specific subdirectory for your UI):
+     ```bash
+     cd apps/ui
+     ```
+   - Install the necessary dependencies:
+     ```bash
+     npm install
+     ```
+   - Start the UI with:
+     ```bash
+     npm run dev
+     ```
+   - You can access the UI at `http://localhost:8080` (adjust the port if necessary).
+
+---
+
+### **Run the Tests**
+
+#### **1. Unit Tests** (Vitest)
+- To run the unit tests for the entire project logic:
+  ```bash
+  cd apps/api
+  npm run test
+  ```
+
+#### **2. API Tests** (Supertest)
+- The API tests are integrated with the main routes of the project. To run them:
+  ```bash
+  cd apps/api
+  npm run test
+  ```
+
+Both suites use Vitest, so you will receive direct feedback on successful or failed tests.
+
+#### **3. Additional Reports**
+If you have configured Allure (optional), generate the report as follows:
+1. Execute the tests to generate results:
    ```bash
-   npm test
+   npm run test
+   ```
+
+2. Generate a visual report:
+   ```bash
+   npm run allure:generate && npm run allure:open
    ```
 
 ---
 
-## **Design Decisions**
-
-Some intentional choices made in this project:
-
-- **In-memory repositories** were used initially to focus on architecture and testing rather than infrastructure.
-- **Repository interfaces** allow switching to a real database without changing services or tests.
-- **Domain errors** keep business logic independent from HTTP concerns.
-- Tests start at the **service layer**, where failures are clearer and feedback is faster.
-
----
-
-## **What Comes Next**
-
-Planned next steps include:
-
-1. **HTTP-level API tests**.
-2. **End-to-end tests** for core user flows.
-3. **Database-backed repositories**.
-4. **CI pipeline** with automated execution.
+### **Project Structure**
+```plaintext
+sdet-automation-platform/
+├── .github/              # Workflows and GitHub Actions configuration
+├── apps/
+│   ├── api/              # Backend API
+│   │   ├── src/          # API source code
+│   │   ├── tests/        # Unit and API tests
+│   │   ├��─ package.json  # Dependencies specific to the backend
+│   │   └── vitest.config.ts
+│   ├── ui/               # Basic frontend (in progress)
+```
 
 ---
 
-## **About Me**
-
-My name is **Daniel Castro Vindas**.  
-I work as a **Software Development Engineer in Test**, focusing on:
-
-- **Automation**
-- **Architecture**
-- Building **quality** into systems from the start.
-
-This repository reflects how I **think**, **design**, and **test software** in real-world projects.
+### **Contributions**
+Contributions are welcome. If you find any issues or would like to add new features, please open an issue or create a pull request.
 
 ---
 
-## **Final Note**
-
-> This is not a **tutorial project**.  
-> It is a **practical example** of how I approach **quality engineering**—keeping things **simple**, **testable**, and **ready to evolve**.
+### **Contacts**
+Creator: **DanCasV27**  
+GitHub: [DanCasV27](https://github.com/DanCasV27)
