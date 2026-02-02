@@ -28,18 +28,18 @@ jobs:
         working-directory: apps/api
         run: npm test
 
-      - name: Setup Java for Allure
+      - name: Debug Allure folders
         if: always()
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: "17"
+        working-directory: apps/api
+        run: |
+          ls -la
+          ls -la allure-results || true
 
       - name: Generate Allure report (API)
         if: always()
         working-directory: apps/api
         run: |
-          npx allure generate allure-results -o allure-report --clean
+          npx allure-commandline generate allure-results -o allure-report --clean
 
       - name: Upload Allure report (API)
         if: always()
@@ -54,7 +54,7 @@ jobs:
         with:
           name: allure-results-api
           path: apps/api/allure-results
-
+          
   e2e-tests:
     name: E2E Tests (Playwright)
     runs-on: ubuntu-latest
