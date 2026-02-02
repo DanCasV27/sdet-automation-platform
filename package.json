@@ -7,8 +7,11 @@
     "test": "tests"
   },
   "scripts": {
-    "dev:api": "npm --prefix apps/api run dev",
-    "build:api": "npm --prefix apps/api run build",
+    "dev:api": "cd apps/api && npm run dev",
+    "dev:web": "cd apps/web && npm run dev -- --port 5173",
+    "e2e": "concurrently -k -s first \"npm run dev:api\" \"npm run dev:web\" \"wait-on http://localhost:3000/health http://localhost:5173 && npx playwright test\"",
+    "e2e:ui": "concurrently -k -s first \"npm run dev:api\" \"npm run dev:web\" \"wait-on http://localhost:3000/health http://localhost:5173 && npx playwright test --ui\"",
+    "e2e:report": "npx playwright show-report",
     "lint": "eslint .",
     "format": "prettier -w ."
   },
@@ -16,7 +19,13 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@playwright/test": "^1.58.1",
+    "@types/node": "^25.1.0",
+    "allure-commandline": "^2.36.0",
+    "allure-playwright": "^3.4.5",
+    "concurrently": "^9.2.1",
     "eslint": "^9.39.2",
-    "prettier": "^3.8.1"
+    "prettier": "^3.8.1",
+    "wait-on": "^9.0.3"
   }
 }
