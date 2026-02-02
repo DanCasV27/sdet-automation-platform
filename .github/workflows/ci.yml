@@ -26,7 +26,7 @@ jobs:
 
       - name: Run API tests
         working-directory: apps/api
-        run: npm test
+        run: npm run test:allure
 
       - name: Debug Allure folders
         if: always()
@@ -54,7 +54,7 @@ jobs:
         with:
           name: allure-results-api
           path: apps/api/allure-results
-          
+
   e2e-tests:
     name: E2E Tests (Playwright)
     runs-on: ubuntu-latest
