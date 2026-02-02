@@ -138,7 +138,7 @@ apps/api
 
 ### **Requirements**
 
-- Node.js 18 or newer.
+- Node.js 20.19.0 or newer.
 - npm.
 
 ### **Steps**
