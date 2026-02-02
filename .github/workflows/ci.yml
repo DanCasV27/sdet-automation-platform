@@ -10,51 +10,37 @@ jobs:
   api-tests:
     name: API Tests (Vitest + Allure)
     runs-on: ubuntu-latest
-
+  
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
+  
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
-
+  
       - name: Install dependencies (API)
         working-directory: apps/api
         run: npm install
-
-      - name: Run API tests
+  
+      - name: Run API tests (Allure)
         working-directory: apps/api
         run: npm run test:allure
-
-      - name: Debug Allure results folder
-        if: always()
-        working-directory: apps/api
-        run: |
-          ls -la
-          ls -la allure-results || true
-
-      - name: Generate Allure report (API)
-        if: always()
-        working-directory: apps/api
-        run: |
-          npx --yes --package=allure-commandline allure generate allure-results -o allure-report --clean
-
+  
       - name: Upload Allure report (API)
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: allure-report-api
           path: apps/api/allure-report
-
+  
       - name: Upload Allure results (API raw)
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: allure-results-api
-          path: apps/api/allure-results
-
+          path: apps/api/allure-results  
 
   e2e-tests:
     name: E2E Tests (Playwright)
