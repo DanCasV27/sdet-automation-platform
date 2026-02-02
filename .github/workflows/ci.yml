@@ -28,7 +28,7 @@ jobs:
         working-directory: apps/api
         run: npm run test:allure
 
-      - name: Debug Allure folders
+      - name: Debug Allure results folder
         if: always()
         working-directory: apps/api
         run: |
@@ -39,7 +39,7 @@ jobs:
         if: always()
         working-directory: apps/api
         run: |
-          npx allure-commandline generate allure-results -o allure-report --clean
+          npx --yes --package=allure-commandline allure generate allure-results -o allure-report --clean
 
       - name: Upload Allure report (API)
         if: always()
@@ -54,6 +54,7 @@ jobs:
         with:
           name: allure-results-api
           path: apps/api/allure-results
+
 
   e2e-tests:
     name: E2E Tests (Playwright)
